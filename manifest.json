@@ -1,7 +1,7 @@
 {
-  "name": "Hello World PWA",
-  "short_name": "HelloPWA",
-  "description": "A simple Hello World Progressive Web App",
+  "name": "ToDo",
+  "short_name": "ToDo",
+  "description": "ToDo PWA",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
