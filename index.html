@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#4F46E5" />
-  <meta name="description" content="Hello World PWA" />
+  <meta name="description" content="ToDo" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -16,39 +16,74 @@
 </head>
 <body>
   <main>
-    <div class="card">
-      <div class="icon">👋</div>
-      <h1>Hello, World!</h1>
-      <p>This PWA works offline and can be installed on Android!</p>
-      <div id="install-banner" hidden>
-        <button id="install-btn">Install App</button>
-      </div>
+    <h1>ToDo</h1>
+
+    <div class="input-row">
+      <input type="text" id="new-item" placeholder="Add a task…" autocomplete="off" />
+      <button id="add-btn">Add</button>
     </div>
+
+    <ul id="todo-list"></ul>
   </main>
 
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js');
+      window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+    }
+
+    const input = document.getElementById('new-item');
+    const list  = document.getElementById('todo-list');
+
+    let items = JSON.parse(localStorage.getItem('todos') || '[]');
+
+    function save() {
+      localStorage.setItem('todos', JSON.stringify(items));
+    }
+
+    function render() {
+      list.innerHTML = '';
+      items.forEach((item, i) => {
+        const li = document.createElement('li');
+        li.className = item.done ? 'done' : '';
+        li.innerHTML = `
+          <label>
+            <input type="checkbox" ${item.done ? 'checked' : ''} data-i="${i}" />
+            <span>${item.text}</span>
+          </label>
+          <button class="delete" data-i="${i}" aria-label="Delete">✕</button>
+        `;
+        list.appendChild(li);
       });
     }
 
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('install-banner').hidden = false;
+    function addItem() {
+      const text = input.value.trim();
+      if (!text) return;
+      items.push({ text, done: false });
+      save();
+      render();
+      input.value = '';
+      input.focus();
+    }
+
+    list.addEventListener('change', (e) => {
+      if (e.target.type !== 'checkbox') return;
+      items[e.target.dataset.i].done = e.target.checked;
+      save();
+      render();
     });
 
-    document.getElementById('install-btn')?.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        document.getElementById('install-banner').hidden = true;
-      }
-      deferredPrompt = null;
+    list.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('delete')) return;
+      items.splice(e.target.dataset.i, 1);
+      save();
+      render();
     });
+
+    document.getElementById('add-btn').addEventListener('click', addItem);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addItem(); });
+
+    render();
   </script>
 </body>
 </html>
