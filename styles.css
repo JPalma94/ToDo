@@ -185,6 +185,10 @@ button.delete:hover {
   flex-direction: column;
 }
 
+.category-list[hidden] {
+  display: none;
+}
+
 .category-list li {
   font-size: 0.95rem;
   color: #cbd5e1;
