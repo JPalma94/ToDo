@@ -148,3 +148,35 @@ button.delete:hover {
   color: #f87171;
   background: #2d1a1a;
 }
+
+.category {
+  margin-bottom: 1.75rem;
+}
+
+.category-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4F46E5;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #2d2d5a;
+}
+
+.category-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-list li {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #1a1a2e;
+}
+
+.category-list li:last-child {
+  border-bottom: none;
+}
