@@ -88,10 +88,20 @@ allItemsCategories.forEach(({ title, items }) => {
   const section = document.createElement('div');
   section.className = 'category';
   section.innerHTML = `
-    <h2 class="category-title">${title}</h2>
+    <h2 class="category-title">
+      <span>${title}</span>
+      <span class="chevron">▾</span>
+    </h2>
     <ul class="category-list">
       ${items.map((item) => `<li>${item}</li>`).join('')}
     </ul>
   `;
+  const titleEl = section.querySelector('.category-title');
+  const listEl  = section.querySelector('.category-list');
+  const chevron = section.querySelector('.chevron');
+  titleEl.addEventListener('click', () => {
+    const collapsed = listEl.hidden = !listEl.hidden;
+    chevron.textContent = collapsed ? '▸' : '▾';
+  });
   allItemsPage.appendChild(section);
 });

@@ -154,6 +154,9 @@ button.delete:hover {
 }
 
 .category-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -162,6 +165,18 @@ button.delete:hover {
   margin-bottom: 0.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid #2d2d5a;
+  cursor: pointer;
+  user-select: none;
+}
+
+.category-title:hover {
+  color: #818cf8;
+}
+
+.chevron {
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .category-list {
