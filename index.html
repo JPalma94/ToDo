@@ -21,6 +21,7 @@
     <nav class="page-nav">
       <button class="nav-btn active" data-page="home">List</button>
       <button class="nav-btn" data-page="all-items">All Items</button>
+      <button id="reset-btn" title="Reset list">↺</button>
     </nav>
 
     <section id="page-home">
@@ -28,7 +29,9 @@
         <input type="text" id="new-item" placeholder="Add an item..." autocomplete="off" />
         <button id="add-btn">Add</button>
       </div>
+      <div id="item-count"></div>
       <ul id="todo-list"></ul>
+      <button id="clear-btn" hidden>Clear completed</button>
     </section>
 
     <section id="page-all-items" hidden></section>

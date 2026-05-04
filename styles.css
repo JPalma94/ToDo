@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -22,8 +24,8 @@ body.page-home::before {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    #0f0f1a 140px,
-    rgba(10, 10, 20, 0.72) 140px
+    #0f0f1a 75px,
+    rgba(10, 10, 20, 0.72) 180px
   );
   z-index: 0;
   pointer-events: none;
@@ -44,9 +46,8 @@ main {
 }
 
 .logo-aj {
+  font-family: 'Righteous', sans-serif;
   color: #ffffff;
-  font-style: italic;
-  font-weight: 700;
 }
 
 .logo-todo {
@@ -57,6 +58,28 @@ main {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+#reset-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid #2d2d5a;
+  border-radius: 0.6rem;
+  color: #475569;
+  font-size: 1.1rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+#reset-btn:hover {
+  border-color: #f87171;
+  color: #f87171;
 }
 
 .nav-btn {
@@ -227,6 +250,33 @@ button.delete:hover {
 
 .category-list li:last-child {
   border-bottom: none;
+}
+
+#item-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.75rem;
+  text-align: right;
+}
+
+#clear-btn {
+  margin-top: 1rem;
+  background: none;
+  border: 1px solid #475569;
+  border-radius: 0.6rem;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.15s;
+}
+
+#clear-btn:hover {
+  border-color: #f87171;
+  color: #f87171;
 }
 
 .all-item {
