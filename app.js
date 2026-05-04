@@ -37,12 +37,23 @@ function render() {
   });
 }
 
-function addItem() {
-  const text = input.value.trim();
-  if (!text) return;
+function addToList(text) {
   items.push({ text, done: false });
   save();
   render();
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 2000);
+}
+
+function addItem() {
+  const text = input.value.trim();
+  if (!text) return;
+  addToList(text);
   input.value = '';
   input.focus();
 }
@@ -93,7 +104,7 @@ allItemsCategories.forEach(({ title, items }) => {
       <span class="chevron">▸</span>
     </h2>
     <ul class="category-list" hidden>
-      ${items.map((item) => `<li>${item}</li>`).join('')}
+      ${items.map((item) => `<li class="all-item">${item}</li>`).join('')}
     </ul>
   `;
   const titleEl = section.querySelector('.category-title');
@@ -102,6 +113,11 @@ allItemsCategories.forEach(({ title, items }) => {
   titleEl.addEventListener('click', () => {
     const collapsed = listEl.hidden = !listEl.hidden;
     chevron.textContent = collapsed ? '▸' : '▾';
+  });
+  listEl.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('all-item')) return;
+    addToList(e.target.textContent);
+    showToast(`"${e.target.textContent}" added.`);
   });
   allItemsPage.appendChild(section);
 });

@@ -199,3 +199,37 @@ button.delete:hover {
 .category-list li:last-child {
   border-bottom: none;
 }
+
+.all-item {
+  cursor: pointer;
+}
+
+.all-item:hover {
+  color: #a5b4fc;
+}
+
+.all-item:active {
+  color: #4F46E5;
+}
+
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(2rem);
+  background: #4F46E5;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border-radius: 2rem;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
