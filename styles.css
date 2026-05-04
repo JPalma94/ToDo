@@ -12,16 +12,39 @@ body {
   padding: 2rem 1rem;
 }
 
+body.page-home {
+  background: #0f0f1a url('icons/background.avif') center center / cover no-repeat fixed;
+}
+
+body.page-home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.72);
+  z-index: 0;
+  pointer-events: none;
+}
+
 main {
+  position: relative;
+  z-index: 1;
   max-width: 480px;
   margin: 0 auto;
 }
 
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #a5b4fc;
+.logo {
+  font-size: 1.9rem;
+  font-weight: 800;
   margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.logo-aj {
+  color: #ffffff;
+}
+
+.logo-todo {
+  color: #4F46E5;
 }
 
 .page-nav {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'todo-pwa-v12';
+const CACHE_NAME = 'todo-pwa-v13';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   './app.js',
   './manifest.json',
   './icons/appIcon.png',
+  './icons/background.avif',
 ];
 
 self.addEventListener('install', (event) => {

@@ -1,12 +1,17 @@
 // Navigation
+function navigateTo(page) {
+  document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
+  document.querySelector(`.nav-btn[data-page="${page}"]`).classList.add('active');
+  document.querySelectorAll('section[id^="page-"]').forEach((s) => s.hidden = true);
+  document.getElementById(`page-${page}`).hidden = false;
+  document.body.classList.toggle('page-home', page === 'home');
+}
+
 document.querySelectorAll('.nav-btn').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('section[id^="page-"]').forEach((s) => s.hidden = true);
-    document.getElementById(`page-${btn.dataset.page}`).hidden = false;
-  });
+  btn.addEventListener('click', () => navigateTo(btn.dataset.page));
 });
+
+navigateTo('home');
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
