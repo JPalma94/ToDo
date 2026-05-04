@@ -90,9 +90,9 @@ allItemsCategories.forEach(({ title, items }) => {
   section.innerHTML = `
     <h2 class="category-title">
       <span>${title}</span>
-      <span class="chevron">▾</span>
+      <span class="chevron">▸</span>
     </h2>
-    <ul class="category-list">
+    <ul class="category-list" hidden>
       ${items.map((item) => `<li>${item}</li>`).join('')}
     </ul>
   `;
