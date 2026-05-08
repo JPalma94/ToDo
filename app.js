@@ -1,3 +1,19 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
+import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0dgKe3ki4_AFVOhsnMb3UnHxJZjSYvD4",
+  authDomain: "todo-287e1.firebaseapp.com",
+  projectId: "todo-287e1",
+  storageBucket: "todo-287e1.firebasestorage.app",
+  messagingSenderId: "802977970794",
+  appId: "1:802977970794:web:2ad7cc56e3bf38a6706813"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const listRef = doc(db, 'lists', 'shared');
+
 // Navigation
 function navigateTo(page) {
   document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
@@ -40,10 +56,10 @@ const list      = document.getElementById('todo-list');
 const clearBtn  = document.getElementById('clear-btn');
 const itemCount = document.getElementById('item-count');
 
-let items = JSON.parse(localStorage.getItem('todos') || '[]');
+let items = [];
 
 function save() {
-  localStorage.setItem('todos', JSON.stringify(items));
+  setDoc(listRef, { items });
 }
 
 function renderItem(item, i) {
@@ -82,7 +98,6 @@ function render() {
 function addToList(text, category = null) {
   items.push({ text, done: false, category });
   save();
-  render();
 }
 
 function showToast(msg) {
@@ -104,34 +119,34 @@ list.addEventListener('change', (e) => {
   if (e.target.type !== 'checkbox') return;
   items[e.target.dataset.i].done = e.target.checked;
   save();
-  render();
 });
 
 list.addEventListener('click', (e) => {
   if (!e.target.classList.contains('delete')) return;
   items.splice(e.target.dataset.i, 1);
   save();
-  render();
 });
 
 clearBtn.addEventListener('click', () => {
   items = items.filter((item) => !item.done);
   save();
-  render();
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   if (confirm('Reset list?')) {
     items = [];
     save();
-    render();
   }
 });
 
 document.getElementById('add-btn').addEventListener('click', addItem);
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addItem(); });
 
-render();
+// Subscribe to Firestore — renders on every remote or local change
+onSnapshot(listRef, (snap) => {
+  items = snap.exists() ? snap.data().items : [];
+  render();
+});
 
 // Build All Items page
 const allItemsPage = document.getElementById('page-all-items');
