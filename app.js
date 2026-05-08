@@ -142,10 +142,18 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 document.getElementById('add-btn').addEventListener('click', addItem);
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addItem(); });
 
+function updateAllItemsHighlights() {
+  const inList = new Set(items.map((item) => item.text));
+  document.querySelectorAll('.all-item').forEach((el) => {
+    el.classList.toggle('in-list', inList.has(el.textContent));
+  });
+}
+
 // Subscribe to Firestore — renders on every remote or local change
 onSnapshot(listRef, (snap) => {
   items = snap.exists() ? snap.data().items : [];
   render();
+  updateAllItemsHighlights();
 });
 
 // Build All Items page

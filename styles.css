@@ -291,6 +291,10 @@ button.delete:hover {
   color: #4F46E5;
 }
 
+.all-item.in-list {
+  color: #818cf8;
+}
+
 #toast {
   position: fixed;
   bottom: 2rem;
