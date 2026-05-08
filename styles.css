@@ -111,8 +111,13 @@ main {
   margin-bottom: 1.5rem;
 }
 
-.input-row input {
+.input-wrapper {
+  position: relative;
   flex: 1;
+}
+
+.input-row input {
+  width: 100%;
   background: #1e1e3a;
   border: 1px solid #2d2d5a;
   border-radius: 0.6rem;
@@ -124,6 +129,41 @@ main {
 
 .input-row input:focus {
   border-color: #4F46E5;
+}
+
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1e1e3a;
+  border: 1px solid #4F46E5;
+  border-top: none;
+  border-radius: 0 0 0.6rem 0.6rem;
+  list-style: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+#suggestions[hidden] {
+  display: none;
+}
+
+#suggestions li {
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  cursor: pointer;
+  border-bottom: 1px solid #2d2d5a;
+}
+
+#suggestions li:last-child {
+  border-bottom: none;
+}
+
+#suggestions li:hover {
+  background: #2d2d5a;
+  color: #a5b4fc;
 }
 
 .input-row button {

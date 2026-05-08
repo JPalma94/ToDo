@@ -51,10 +51,11 @@ const allItemsCategories = [
 ];
 
 // Shopping list
-const input     = document.getElementById('new-item');
-const list      = document.getElementById('todo-list');
-const clearBtn  = document.getElementById('clear-btn');
-const itemCount = document.getElementById('item-count');
+const input       = document.getElementById('new-item');
+const list        = document.getElementById('todo-list');
+const clearBtn    = document.getElementById('clear-btn');
+const itemCount   = document.getElementById('item-count');
+const suggestionsEl = document.getElementById('suggestions');
 
 let items = [];
 
@@ -107,11 +108,46 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('visible'), 2000);
 }
 
+let currentSuggestions = [];
+
+function showSuggestions(query) {
+  if (!query) { suggestionsEl.hidden = true; return; }
+  const q = query.toLowerCase();
+  currentSuggestions = [];
+  allItemsCategories.forEach(({ title, items: categoryItems }) => {
+    categoryItems.forEach((text) => {
+      if (text.toLowerCase().includes(q)) currentSuggestions.push({ text, category: title });
+    });
+  });
+  if (!currentSuggestions.length) { suggestionsEl.hidden = true; return; }
+  suggestionsEl.innerHTML = currentSuggestions.slice(0, 6).map((s, i) =>
+    `<li data-i="${i}">${s.text}</li>`
+  ).join('');
+  suggestionsEl.hidden = false;
+}
+
+input.addEventListener('input', () => showSuggestions(input.value.trim()));
+
+suggestionsEl.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  const { text, category } = currentSuggestions[li.dataset.i];
+  addToList(text, category);
+  input.value = '';
+  suggestionsEl.hidden = true;
+  input.focus();
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.input-wrapper')) suggestionsEl.hidden = true;
+});
+
 function addItem() {
   const text = input.value.trim();
   if (!text) return;
   addToList(text);
   input.value = '';
+  suggestionsEl.hidden = true;
   input.focus();
 }
 
