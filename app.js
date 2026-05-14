@@ -57,12 +57,17 @@ const input       = document.getElementById('new-item');
 const list        = document.getElementById('todo-list');
 const clearBtn    = document.getElementById('clear-btn');
 const itemCount   = document.getElementById('item-count');
+const cartTotal   = document.getElementById('cart-total');
+const calcBtn     = document.getElementById('calc-btn');
+const priceModal  = document.getElementById('price-modal');
+const priceInput  = document.getElementById('price-input');
 const suggestionsEl = document.getElementById('suggestions');
 
 let items = [];
+let calculatorMode = false;
 
 function save() {
-  setDoc(listRef, { items });
+  setDoc(listRef, { items, calculatorMode });
 }
 
 function renderItem(item, i) {
@@ -96,6 +101,41 @@ function render() {
   clearBtn.hidden = !items.some((item) => item.done);
   const done = items.filter((item) => item.done).length;
   itemCount.textContent = items.length ? `${done}/${items.length}` : '';
+
+  const total = items
+    .filter((item) => item.done && typeof item.price === 'number')
+    .reduce((sum, item) => sum + item.price, 0);
+  cartTotal.textContent = calculatorMode ? `€${total.toFixed(2)}` : '';
+  calcBtn.classList.toggle('active', calculatorMode);
+}
+
+function promptPrice(currentPrice) {
+  return new Promise((resolve) => {
+    priceInput.value = currentPrice ?? '';
+    priceModal.hidden = false;
+    setTimeout(() => { priceInput.focus(); priceInput.select(); }, 0);
+
+    const cleanup = () => {
+      priceModal.hidden = true;
+      priceInput.removeEventListener('keydown', onKey);
+      priceModal.removeEventListener('click', onClick);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Enter') {
+        const v = parseFloat(priceInput.value);
+        cleanup();
+        resolve(isNaN(v) ? null : v);
+      } else if (e.key === 'Escape') {
+        cleanup();
+        resolve(null);
+      }
+    };
+    const onClick = (e) => {
+      if (e.target === priceModal) { cleanup(); resolve(null); }
+    };
+    priceInput.addEventListener('keydown', onKey);
+    priceModal.addEventListener('click', onClick);
+  });
 }
 
 function addToList(text, category = null) {
@@ -153,9 +193,25 @@ function addItem() {
   input.focus();
 }
 
-list.addEventListener('change', (e) => {
+list.addEventListener('change', async (e) => {
   if (e.target.type !== 'checkbox') return;
-  items[e.target.dataset.i].done = e.target.checked;
+  const i = e.target.dataset.i;
+  const checking = e.target.checked;
+
+  if (checking && calculatorMode) {
+    const price = await promptPrice(items[i].price);
+    if (price === null) {
+      e.target.checked = false;
+      return;
+    }
+    items[i].price = price;
+  }
+  items[i].done = checking;
+  save();
+});
+
+calcBtn.addEventListener('click', () => {
+  calculatorMode = !calculatorMode;
   save();
 });
 
@@ -189,7 +245,9 @@ function updateAllItemsHighlights() {
 
 // Subscribe to Firestore — renders on every remote or local change
 onSnapshot(listRef, (snap) => {
-  items = snap.exists() ? snap.data().items : [];
+  const data = snap.exists() ? snap.data() : {};
+  items = data.items || [];
+  calculatorMode = !!data.calculatorMode;
   render();
   updateAllItemsHighlights();
 });

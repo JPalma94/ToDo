@@ -21,6 +21,7 @@
     <nav class="page-nav">
       <button class="nav-btn active" data-page="home">List</button>
       <button class="nav-btn" data-page="all-items">All Items</button>
+      <button id="calc-btn" title="Calculator mode">€</button>
       <button id="reset-btn" title="Reset list">↺</button>
     </nav>
 
@@ -32,13 +33,23 @@
         </div>
         <button id="add-btn">Add</button>
       </div>
-      <div id="item-count"></div>
+      <div class="counters">
+        <div id="cart-total"></div>
+        <div id="item-count"></div>
+      </div>
       <ul id="todo-list"></ul>
       <button id="clear-btn" hidden>Clear completed</button>
     </section>
 
     <section id="page-all-items" hidden></section>
   </main>
+
+  <div id="price-modal" class="modal" hidden>
+    <div class="modal-content">
+      <label for="price-input">Price (€)</label>
+      <input type="number" id="price-input" step="0.01" inputmode="decimal" placeholder="0.00" />
+    </div>
+  </div>
 
   <div id="toast"></div>
   <script src="app.js" type="module"></script>
