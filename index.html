@@ -46,8 +46,13 @@
 
   <div id="price-modal" class="modal" hidden>
     <div class="modal-content">
+      <div id="price-item-name" class="modal-title"></div>
       <label for="price-input">Price (€)</label>
       <input type="number" id="price-input" step="0.01" inputmode="decimal" placeholder="0.00" />
+      <div class="modal-buttons">
+        <button id="price-back-btn" class="modal-btn back">Back</button>
+        <button id="price-confirm-btn" class="modal-btn confirm">Confirm</button>
+      </div>
     </div>
   </div>
 

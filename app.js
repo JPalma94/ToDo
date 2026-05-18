@@ -86,16 +86,21 @@ function renderItem(item, i) {
 function render() {
   list.innerHTML = '';
 
-  // Uncategorised items first
+  // Unchecked uncategorised items first
   items.forEach((item, i) => {
-    if (!item.category) renderItem(item, i);
+    if (!item.category && !item.done) renderItem(item, i);
   });
 
-  // Categorised items grouped in aisle order
+  // Unchecked categorised items grouped in aisle order
   allItemsCategories.forEach(({ title }) => {
-    const group = items.map((item, i) => ({ ...item, i })).filter((item) => item.category === title);
+    const group = items.map((item, i) => ({ ...item, i })).filter((item) => item.category === title && !item.done);
     if (!group.length) return;
     group.forEach(({ i }) => renderItem(items[i], i));
+  });
+
+  // Checked items at the bottom
+  items.forEach((item, i) => {
+    if (item.done) renderItem(item, i);
   });
 
   clearBtn.hidden = !items.some((item) => item.done);
@@ -109,8 +114,13 @@ function render() {
   calcBtn.classList.toggle('active', calculatorMode);
 }
 
-function promptPrice(currentPrice) {
+const priceItemName = document.getElementById('price-item-name');
+const priceConfirmBtn = document.getElementById('price-confirm-btn');
+const priceBackBtn = document.getElementById('price-back-btn');
+
+function promptPrice(itemName, currentPrice) {
   return new Promise((resolve) => {
+    priceItemName.textContent = itemName;
     priceInput.value = currentPrice ?? '';
     priceModal.hidden = false;
     setTimeout(() => { priceInput.focus(); priceInput.select(); }, 0);
@@ -119,12 +129,17 @@ function promptPrice(currentPrice) {
       priceModal.hidden = true;
       priceInput.removeEventListener('keydown', onKey);
       priceModal.removeEventListener('click', onClick);
+      priceConfirmBtn.removeEventListener('click', onConfirm);
+      priceBackBtn.removeEventListener('click', onBack);
+    };
+    const confirm = () => {
+      const v = parseFloat(priceInput.value);
+      cleanup();
+      resolve(isNaN(v) ? null : v);
     };
     const onKey = (e) => {
       if (e.key === 'Enter') {
-        const v = parseFloat(priceInput.value);
-        cleanup();
-        resolve(isNaN(v) ? null : v);
+        confirm();
       } else if (e.key === 'Escape') {
         cleanup();
         resolve(null);
@@ -133,8 +148,13 @@ function promptPrice(currentPrice) {
     const onClick = (e) => {
       if (e.target === priceModal) { cleanup(); resolve(null); }
     };
+    const onConfirm = () => confirm();
+    const onBack = () => { cleanup(); resolve(null); };
+
     priceInput.addEventListener('keydown', onKey);
     priceModal.addEventListener('click', onClick);
+    priceConfirmBtn.addEventListener('click', onConfirm);
+    priceBackBtn.addEventListener('click', onBack);
   });
 }
 
@@ -195,11 +215,11 @@ function addItem() {
 
 list.addEventListener('change', async (e) => {
   if (e.target.type !== 'checkbox') return;
-  const i = e.target.dataset.i;
+  const i = parseInt(e.target.dataset.i, 10);
   const checking = e.target.checked;
 
   if (checking && calculatorMode) {
-    const price = await promptPrice(items[i].price);
+    const price = await promptPrice(items[i].text, items[i].price);
     if (price === null) {
       e.target.checked = false;
       return;
@@ -207,6 +227,13 @@ list.addEventListener('change', async (e) => {
     items[i].price = price;
   }
   items[i].done = checking;
+
+  // Move checked items to the bottom
+  if (checking) {
+    const [item] = items.splice(i, 1);
+    items.push(item);
+  }
+
   save();
 });
 
@@ -275,8 +302,16 @@ allItemsCategories.forEach(({ title, items: categoryItems }) => {
   });
   listEl.addEventListener('click', (e) => {
     if (!e.target.classList.contains('all-item')) return;
-    addToList(e.target.textContent, title);
-    showToast(`"${e.target.textContent}" added.`);
+    const text = e.target.textContent;
+    const existingIndex = items.findIndex((item) => item.text === text);
+    if (existingIndex !== -1) {
+      items.splice(existingIndex, 1);
+      save();
+      showToast(`"${text}" removed.`);
+    } else {
+      addToList(text, title);
+      showToast(`"${text}" added.`);
+    }
   });
   allItemsPage.appendChild(section);
 });
