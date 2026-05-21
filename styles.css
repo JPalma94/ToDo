@@ -299,10 +299,10 @@ button.delete:hover {
 button.move-to-list {
   background: none;
   border: none;
-  color: #4F46E5;
-  font-size: 0.85rem;
+  color: #818cf8;
+  font-size: 1.1rem;
   cursor: pointer;
-  padding: 0.2rem 0.3rem;
+  padding: 0.2rem 0.4rem;
   line-height: 1;
   border-radius: 0.3rem;
   flex-shrink: 0;
@@ -310,7 +310,7 @@ button.move-to-list {
 }
 
 button.move-to-list:hover {
-  color: #818cf8;
+  color: #a5b4fc;
   background: #1a1a3a;
 }
 
@@ -404,6 +404,28 @@ button.move-to-list:hover {
 #clear-btn:hover, #clear-backlog-btn:hover {
   border-color: #f87171;
   color: #f87171;
+}
+
+.add-all-btn {
+  margin-top: 1rem;
+  background: #4F46E5;
+  border: none;
+  border-radius: 0.6rem;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: auto;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-all-btn:hover {
+  background: #4338ca;
 }
 
 .all-item {

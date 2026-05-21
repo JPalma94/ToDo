@@ -422,6 +422,18 @@ backlogClearBtn.addEventListener('click', () => {
   saveBacklog();
 });
 
+document.getElementById('add-all-to-list-btn').addEventListener('click', async () => {
+  if (await showConfirm('Add all to list?')) {
+    const itemsToAdd = [...backlogItems];
+    backlogItems = [];
+    saveBacklog();
+    itemsToAdd.forEach((item) => {
+      addToList(item.text, item.category || null);
+    });
+    showToast(`${itemsToAdd.length} items added to list.`);
+  }
+});
+
 document.getElementById('reset-btn').addEventListener('click', async () => {
   const activePage = document.querySelector('.nav-btn.active').dataset.page;
   if (activePage === 'home') {
