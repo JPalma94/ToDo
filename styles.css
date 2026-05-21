@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Righteous&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -7,18 +7,18 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #0f0f1a;
   color: #e2e8f0;
   min-height: 100dvh;
   padding: 2rem 1rem;
 }
 
-body.page-home {
+body.page-home, body.page-all-items, body.page-backlog {
   background: #0f0f1a url('icons/background.avif') center / cover no-repeat fixed;
 }
 
-body.page-home::before {
+body.page-home::before, body.page-all-items::before, body.page-backlog::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -186,6 +186,41 @@ main {
   color: #a5b4fc;
 }
 
+#backlog-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1e1e3a;
+  border: 1px solid #4F46E5;
+  border-top: none;
+  border-radius: 0 0 0.6rem 0.6rem;
+  list-style: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+#backlog-suggestions[hidden] {
+  display: none;
+}
+
+#backlog-suggestions li {
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  cursor: pointer;
+  border-bottom: 1px solid #2d2d5a;
+}
+
+#backlog-suggestions li:last-child {
+  border-bottom: none;
+}
+
+#backlog-suggestions li:hover {
+  background: #2d2d5a;
+  color: #a5b4fc;
+}
+
 .input-row button {
   background: #4F46E5;
   color: white;
@@ -201,14 +236,14 @@ main {
   background: #4338ca;
 }
 
-#todo-list {
+#todo-list, #backlog-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-#todo-list li {
+#todo-list li, #backlog-list li {
   display: flex;
   align-items: center;
   background: #1e1e3a;
@@ -218,7 +253,7 @@ main {
   gap: 0.5rem;
 }
 
-#todo-list li label {
+#todo-list li label, #backlog-list li label {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -226,7 +261,7 @@ main {
   cursor: pointer;
 }
 
-#todo-list li label input[type="checkbox"] {
+#todo-list li label input[type="checkbox"], #backlog-list li label input[type="checkbox"] {
   width: 1.1rem;
   height: 1.1rem;
   accent-color: #4F46E5;
@@ -234,12 +269,12 @@ main {
   flex-shrink: 0;
 }
 
-#todo-list li label span {
+#todo-list li label span, #backlog-list li label span {
   font-size: 1rem;
   line-height: 1.4;
 }
 
-#todo-list li.done label span {
+#todo-list li.done label span, #backlog-list li.done label span {
   text-decoration: line-through;
   color: #475569;
 }
@@ -261,6 +296,24 @@ button.delete:hover {
   background: #2d1a1a;
 }
 
+button.move-to-list {
+  background: none;
+  border: none;
+  color: #4F46E5;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.2rem 0.3rem;
+  line-height: 1;
+  border-radius: 0.3rem;
+  flex-shrink: 0;
+  margin-right: 0.3rem;
+}
+
+button.move-to-list:hover {
+  color: #818cf8;
+  background: #1a1a3a;
+}
+
 .category {
   margin-bottom: 1.75rem;
 }
@@ -269,14 +322,16 @@ button.delete:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #4F46E5;
+  color: #e2e8f0;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
   margin-bottom: 0.5rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #2d2d5a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   user-select: none;
 }
@@ -332,7 +387,7 @@ button.delete:hover {
   margin-left: auto;
 }
 
-#clear-btn {
+#clear-btn, #clear-backlog-btn {
   margin-top: 1rem;
   background: none;
   border: 1px solid #475569;
@@ -346,13 +401,14 @@ button.delete:hover {
   transition: all 0.15s;
 }
 
-#clear-btn:hover {
+#clear-btn:hover, #clear-backlog-btn:hover {
   border-color: #f87171;
   color: #f87171;
 }
 
 .all-item {
   cursor: pointer;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
 .all-item:hover {
@@ -413,6 +469,7 @@ button.delete:hover {
 }
 
 .modal-title {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   color: #e2e8f0;

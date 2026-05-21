@@ -20,6 +20,7 @@
 
     <nav class="page-nav">
       <button class="nav-btn active" data-page="home">List</button>
+      <button class="nav-btn" data-page="backlog">Backlog</button>
       <button class="nav-btn" data-page="all-items">All Items</button>
       <button id="calc-btn" title="Calculator mode">€</button>
       <button id="reset-btn" title="Reset list">↺</button>
@@ -41,6 +42,18 @@
       <button id="clear-btn" hidden>Clear completed</button>
     </section>
 
+    <section id="page-backlog" hidden>
+      <div class="input-row">
+        <div class="input-wrapper">
+          <input type="text" id="new-backlog-item" placeholder="Add to backlog..." autocomplete="off" />
+          <ul id="backlog-suggestions" hidden></ul>
+        </div>
+        <button id="add-backlog-btn">Add</button>
+      </div>
+      <ul id="backlog-list"></ul>
+      <button id="clear-backlog-btn" hidden>Clear completed</button>
+    </section>
+
     <section id="page-all-items" hidden></section>
   </main>
 
@@ -52,6 +65,16 @@
       <div class="modal-buttons">
         <button id="price-back-btn" class="modal-btn back">Back</button>
         <button id="price-confirm-btn" class="modal-btn confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-modal" class="modal" hidden>
+    <div class="modal-content">
+      <div id="confirm-message" class="modal-title"></div>
+      <div class="modal-buttons">
+        <button id="confirm-cancel-btn" class="modal-btn back">Cancel</button>
+        <button id="confirm-ok-btn" class="modal-btn confirm">OK</button>
       </div>
     </div>
   </div>

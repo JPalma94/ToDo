@@ -15,6 +15,7 @@ const db = initializeFirestore(firebaseApp, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 });
 const listRef = doc(db, 'lists', 'shared');
+const backlogRef = doc(db, 'backlog', 'shared');
 
 // Navigation
 function navigateTo(page) {
@@ -23,6 +24,8 @@ function navigateTo(page) {
   document.querySelectorAll('section[id^="page-"]').forEach((s) => s.hidden = true);
   document.getElementById(`page-${page}`).hidden = false;
   document.body.classList.toggle('page-home', page === 'home');
+  document.body.classList.toggle('page-backlog', page === 'backlog');
+  document.body.classList.toggle('page-all-items', page === 'all-items');
 }
 
 document.querySelectorAll('.nav-btn').forEach((btn) => {
@@ -52,7 +55,7 @@ const allItemsCategories = [
   { title: 'Roupa', items: ['Liquido roupa cores','Liquido roupa preta','Amaciador','Água destilada'] },
 ];
 
-// Shopping list
+// List
 const input       = document.getElementById('new-item');
 const list        = document.getElementById('todo-list');
 const clearBtn    = document.getElementById('clear-btn');
@@ -63,11 +66,22 @@ const priceModal  = document.getElementById('price-modal');
 const priceInput  = document.getElementById('price-input');
 const suggestionsEl = document.getElementById('suggestions');
 
+// Backlog
+const backlogInput       = document.getElementById('new-backlog-item');
+const backlogList        = document.getElementById('backlog-list');
+const backlogClearBtn    = document.getElementById('clear-backlog-btn');
+const backlogSuggestionsEl = document.getElementById('backlog-suggestions');
+
 let items = [];
+let backlogItems = [];
 let calculatorMode = false;
 
 function save() {
   setDoc(listRef, { items, calculatorMode });
+}
+
+function saveBacklog() {
+  setDoc(backlogRef, { items: backlogItems });
 }
 
 function renderItem(item, i) {
@@ -81,6 +95,20 @@ function renderItem(item, i) {
     <button class="delete" data-i="${i}" aria-label="Delete">✕</button>
   `;
   list.appendChild(li);
+}
+
+function renderBacklogItem(item, i) {
+  const li = document.createElement('li');
+  li.className = item.done ? 'done' : '';
+  li.innerHTML = `
+    <label>
+      <input type="checkbox" ${item.done ? 'checked' : ''} data-i="${i}" />
+      <span>${item.text}</span>
+    </label>
+    <button class="move-to-list" data-i="${i}" aria-label="Add to list">←</button>
+    <button class="delete" data-i="${i}" aria-label="Delete">✕</button>
+  `;
+  backlogList.appendChild(li);
 }
 
 function render() {
@@ -110,13 +138,72 @@ function render() {
   const total = items
     .filter((item) => item.done && typeof item.price === 'number')
     .reduce((sum, item) => sum + item.price, 0);
-  cartTotal.textContent = calculatorMode ? `€${total.toFixed(2)}` : '';
+  cartTotal.textContent = calculatorMode ? `Total: €${total.toFixed(2)}` : '';
   calcBtn.classList.toggle('active', calculatorMode);
+}
+
+function renderBacklog() {
+  backlogList.innerHTML = '';
+
+  // Unchecked uncategorised items first
+  backlogItems.forEach((item, i) => {
+    if (!item.category && !item.done) renderBacklogItem(item, i);
+  });
+
+  // Unchecked categorised items grouped in aisle order
+  allItemsCategories.forEach(({ title }) => {
+    const group = backlogItems.map((item, i) => ({ ...item, i })).filter((item) => item.category === title && !item.done);
+    if (!group.length) return;
+    group.forEach(({ i }) => renderBacklogItem(backlogItems[i], i));
+  });
+
+  // Checked items at the bottom
+  backlogItems.forEach((item, i) => {
+    if (item.done) renderBacklogItem(item, i);
+  });
+
+  backlogClearBtn.hidden = !backlogItems.some((item) => item.done);
 }
 
 const priceItemName = document.getElementById('price-item-name');
 const priceConfirmBtn = document.getElementById('price-confirm-btn');
 const priceBackBtn = document.getElementById('price-back-btn');
+const confirmModal = document.getElementById('confirm-modal');
+const confirmMessage = document.getElementById('confirm-message');
+const confirmOkBtn = document.getElementById('confirm-ok-btn');
+const confirmCancelBtn = document.getElementById('confirm-cancel-btn');
+
+function showConfirm(message) {
+  return new Promise((resolve) => {
+    confirmMessage.textContent = message;
+    confirmModal.hidden = false;
+
+    const cleanup = () => {
+      confirmModal.hidden = true;
+      confirmOkBtn.removeEventListener('click', onOk);
+      confirmCancelBtn.removeEventListener('click', onCancel);
+      confirmModal.removeEventListener('click', onBackdrop);
+    };
+    const onOk = () => {
+      cleanup();
+      resolve(true);
+    };
+    const onCancel = () => {
+      cleanup();
+      resolve(false);
+    };
+    const onBackdrop = (e) => {
+      if (e.target === confirmModal) {
+        cleanup();
+        resolve(false);
+      }
+    };
+
+    confirmOkBtn.addEventListener('click', onOk);
+    confirmCancelBtn.addEventListener('click', onCancel);
+    confirmModal.addEventListener('click', onBackdrop);
+  });
+}
 
 function promptPrice(itemName, currentPrice) {
   return new Promise((resolve) => {
@@ -163,6 +250,11 @@ function addToList(text, category = null) {
   save();
 }
 
+function addToBacklog(text, category = null) {
+  backlogItems.push({ text, done: false, category });
+  saveBacklog();
+}
+
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -171,6 +263,7 @@ function showToast(msg) {
 }
 
 let currentSuggestions = [];
+let currentBacklogSuggestions = [];
 
 function showSuggestions(query) {
   if (!query) { suggestionsEl.hidden = true; return; }
@@ -188,7 +281,25 @@ function showSuggestions(query) {
   suggestionsEl.hidden = false;
 }
 
+function showBacklogSuggestions(query) {
+  if (!query) { backlogSuggestionsEl.hidden = true; return; }
+  const q = query.toLowerCase();
+  currentBacklogSuggestions = [];
+  allItemsCategories.forEach(({ title, items: categoryItems }) => {
+    categoryItems.forEach((text) => {
+      if (text.toLowerCase().includes(q)) currentBacklogSuggestions.push({ text, category: title });
+    });
+  });
+  if (!currentBacklogSuggestions.length) { backlogSuggestionsEl.hidden = true; return; }
+  backlogSuggestionsEl.innerHTML = currentBacklogSuggestions.slice(0, 6).map((s, i) =>
+    `<li data-i="${i}">${s.text}</li>`
+  ).join('');
+  backlogSuggestionsEl.hidden = false;
+}
+
 input.addEventListener('input', () => showSuggestions(input.value.trim()));
+
+backlogInput.addEventListener('input', () => showBacklogSuggestions(backlogInput.value.trim()));
 
 suggestionsEl.addEventListener('click', (e) => {
   const li = e.target.closest('li');
@@ -200,8 +311,19 @@ suggestionsEl.addEventListener('click', (e) => {
   input.focus();
 });
 
+backlogSuggestionsEl.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  const { text, category } = currentBacklogSuggestions[li.dataset.i];
+  addToBacklog(text, category);
+  backlogInput.value = '';
+  backlogSuggestionsEl.hidden = true;
+  backlogInput.focus();
+});
+
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.input-wrapper')) suggestionsEl.hidden = true;
+  if (!e.target.closest('.input-wrapper')) backlogSuggestionsEl.hidden = true;
 });
 
 function addItem() {
@@ -211,6 +333,15 @@ function addItem() {
   input.value = '';
   suggestionsEl.hidden = true;
   input.focus();
+}
+
+function addBacklogItem() {
+  const text = backlogInput.value.trim();
+  if (!text) return;
+  addToBacklog(text);
+  backlogInput.value = '';
+  backlogSuggestionsEl.hidden = true;
+  backlogInput.focus();
 }
 
 list.addEventListener('change', async (e) => {
@@ -237,6 +368,21 @@ list.addEventListener('change', async (e) => {
   save();
 });
 
+backlogList.addEventListener('change', async (e) => {
+  if (e.target.type !== 'checkbox') return;
+  const i = parseInt(e.target.dataset.i, 10);
+  const checking = e.target.checked;
+  backlogItems[i].done = checking;
+
+  // Move checked items to the bottom
+  if (checking) {
+    const [item] = backlogItems.splice(i, 1);
+    backlogItems.push(item);
+  }
+
+  saveBacklog();
+});
+
 calcBtn.addEventListener('click', () => {
   calculatorMode = !calculatorMode;
   save();
@@ -248,13 +394,36 @@ list.addEventListener('click', (e) => {
   save();
 });
 
+backlogList.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('delete')) {
+    backlogItems.splice(e.target.dataset.i, 1);
+    saveBacklog();
+    return;
+  }
+  if (e.target.classList.contains('move-to-list')) {
+    const i = parseInt(e.target.dataset.i, 10);
+    const item = backlogItems[i];
+    if (await showConfirm(`Add "${item.text}" to list?`)) {
+      backlogItems.splice(i, 1);
+      saveBacklog();
+      addToList(item.text, item.category || null);
+      showToast(`"${item.text}" added to list.`);
+    }
+  }
+});
+
 clearBtn.addEventListener('click', () => {
   items = items.filter((item) => !item.done);
   save();
 });
 
-document.getElementById('reset-btn').addEventListener('click', () => {
-  if (confirm('Reset list?')) {
+backlogClearBtn.addEventListener('click', () => {
+  backlogItems = backlogItems.filter((item) => !item.done);
+  saveBacklog();
+});
+
+document.getElementById('reset-btn').addEventListener('click', async () => {
+  if (await showConfirm('Reset list?')) {
     items = [];
     save();
   }
@@ -263,8 +432,11 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 document.getElementById('add-btn').addEventListener('click', addItem);
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addItem(); });
 
+document.getElementById('add-backlog-btn').addEventListener('click', addBacklogItem);
+backlogInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addBacklogItem(); });
+
 function updateAllItemsHighlights() {
-  const inList = new Set(items.map((item) => item.text));
+  const inList = new Set([...items, ...backlogItems].map((item) => item.text));
   document.querySelectorAll('.all-item').forEach((el) => {
     el.classList.toggle('in-list', inList.has(el.textContent));
   });
@@ -276,6 +448,13 @@ onSnapshot(listRef, (snap) => {
   items = data.items || [];
   calculatorMode = !!data.calculatorMode;
   render();
+  updateAllItemsHighlights();
+});
+
+onSnapshot(backlogRef, (snap) => {
+  const data = snap.exists() ? snap.data() : {};
+  backlogItems = data.items || [];
+  renderBacklog();
   updateAllItemsHighlights();
 });
 
