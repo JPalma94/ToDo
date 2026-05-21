@@ -423,9 +423,17 @@ backlogClearBtn.addEventListener('click', () => {
 });
 
 document.getElementById('reset-btn').addEventListener('click', async () => {
-  if (await showConfirm('Reset list?')) {
-    items = [];
-    save();
+  const activePage = document.querySelector('.nav-btn.active').dataset.page;
+  if (activePage === 'home') {
+    if (await showConfirm('Reset main list?')) {
+      items = [];
+      save();
+    }
+  } else if (activePage === 'backlog') {
+    if (await showConfirm('Reset backlog?')) {
+      backlogItems = [];
+      saveBacklog();
+    }
   }
 });
 
