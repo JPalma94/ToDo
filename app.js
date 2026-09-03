@@ -40,20 +40,21 @@ if ('serviceWorker' in navigator) {
 
 // All Items data (defined early so render can reference category order)
 const allItemsCategories = [
-  { title: 'Proteínas', items: ['Feijão Preto','Feijão Branco','Grão','Soja','Seitan','Ovos','Salmão','Filetes de pescada','Peito de Frango','Bife de Frango finíssimos','Hamburguer de Frango','Douradinhos iglo verdes','Douradinhos iglo frango e queijo','Miolo de camarão','Cogumelos latas/frescos','Tofu marinado (aldi)','Tofu fumado (aldi)'] },
-  { title: 'Laticínios', items: ['Queijo fatias','Queijo philadelphia','Queijo cottage','Queijo parmesão','Queijo mozzarella fresca','Iogurte Alpro Fruta','Iogurte Alpro Sky Natural','Iogurte Alpro Natural','Manteiga','Leite soja 0% açúcar'] },
-  { title: 'Grãos/Massas', items: ['Batata forno','Arroz Basmati','Massa larga','Massa esparguete','Massa espiral','Massa lecinhas'] },
-  { title: 'Higiene/Casa de banho', items: ['Papel Higienico','Rolo de Cozinha','Toalhetes','Pasta de dentes','Lísterine','Champô','Gel de banho','Sacos do lixo 30','Sacos do lixo 10','Sacos do lixo 5','Sacos de coco milile','Desodorizante','Areia Millie','Comida Millie','Recarga sabão das mãos'] },
-  { title: 'Cereais/Complementos', items: ['Cereais Fitness','Cereais Argolas','Flocos de Aveia','Preparado Panquecas','Farinha de Aveia','Pão para congelar/Pão de forma','Tortilhas integrais','Tostas integrais finas','Chocolate negro','Frutos secos (Noz, Caju, Amendoim)','Croutons com sabor'] },
-  { title: 'Molhos/Temperos', items: ['Pesto','Molho de tomate com manjericão','Soja','Vinagre balsamico','Creme de Soja','Picante (Tabasco)','Flor de sal','Oregãos','Ervas de provencea','Alho em Pó','Pimentão doce','Pimentão doce fumado','Bechamel','Azeite Trufa'] },
-  { title: 'Legumes', items: ['Cebola','Alho','Tomate','Alface','Pepino','Esparregado','Bróculos','Ervilhas','Pimento','Couve flor','Límbes','Lima'] },
-  { title: 'Fruta', items: ['Banana','Maçã','Uvas','Pera','Mamão','Framboesas','Morangos'] },
-  { title: 'Café/Chá', items: ['Café solúvel','Café capsulas','Chá ervas'] },
-  { title: 'Bebidas', items: ['Garrafa de Água','Compal Maçã','Compal Manga','Compal Manga Laranja','Freeze Limão'] },
+  { title: 'Proteínas', items: ['Feijão Preto','Feijão Branco','Grão','Soja','Seitan','Ovos bio','Salmão','Filetes de pescada','Peito de Frango','Bife de Frango finíssimos','Hamburguer de Frango','Douradinhos iglo verdes','Douradinhos iglo frango e queijo','Miolo de camarão','Cogumelos latas/frescos','Tofu marinado (aldi/lidl)','Tofu fumado (aldi/lidl)'] },
+  { title: 'Laticínios', items: ['Queijo fatias light','Queijo philadelphia','Queijo cottage','Queijo parmesão','Queijo mozzarella fresca','Queijo mozzarella ralado light','Iogurte Alpro Fruta','Iogurte Alpro Skyr Natural','Iogurte Alpro Natural','Manteiga','Leite soja 0% açúcar'] },
+  { title: 'Grãos/Massas', items: ['Batata forno','Arroz Basmati','Massa larga','Massa esparguete','Massa espiral','Massa lacinhos','Massa cotovelinhos'] },
+  { title: 'Higiene/Casa de banho', items: ['Papel Higiénico','Rolo de Cozinha','Toalhetes 99% água','Fraldas','Pasta de dentes Aquafresh lima','Listerine','Champô','Gel de banho','Sacos do lixo 30','Sacos do lixo 10','Sacos do lixo 5','Sacos de coco millie','Desodorizante','Areia Millie','Comida Millie','Recarga sabão das mãos'] },
+  { title: 'Cereais/Complementos', items: ['Cereais Fitness','Cereais Argolas','Cereais Chocapic','Flocos de Aveia','Preparado Panquecas','Farinha de Aveia','Pão para congelar/Pão de forma','Tortilhas integrais','Tostas integrais finas','Chocolate negro','Frutos secos (Noz, Caju, Amendoim)','Croutons com sabor'] },
+  { title: 'Molhos/Temperos', items: ['Pesto','Molho de tomate com manjericão','Molho de soja','Vinagre balsâmico','Creme de Soja','Picante (Tabasco)','Flor de sal','Oregãos','Ervas de provence','Alho em Pó','Pimentão doce','Pimentão doce fumado','Bechamel','Azeite Trufa'] },
+  { title: 'Legumes', items: ['Cebola','Alho','Tomate','Alface','Pepino','Esparregado','Bróculos','Ervilhas','Pimento vermelho/verde/amarelo','Couve flor','Limões','Lima'] },
+  { title: 'Fruta', items: ['Banana','Maçã','Uvas','Pêra','Mamão','Framboesas','Morangos','Manga'] },
+  { title: 'Café/Chá', items: ['Café solúvel','Café capsulas','Chá ervas','Nesquik'] },
+  { title: 'Bebidas', items: ['Garrafão de Água','Compal Maçã','Compal Manga','Compal Manga Laranja','Freeze Limão'] },
   { title: 'Sopa', items: ['Alho francês','Cenoura','Courgete','Cabeça de Nabo','Abóbora','Chuchu'] },
-  { title: 'Cozinha', items: ['Papel de alumínio','Papel vegetal','Película','Desinfetante cozinha','Desinfetante casa de Banho','Liquido da Loiça','Pastilhas máquina da Loiça','Alcool'] },
-  { title: 'Roupa', items: ['Liquido roupa cores','Liquido roupa preta','Amaciador','Água destilada'] },
+  { title: 'Cozinha', items: ['Papel de alumínio','Papel vegetal','Película','Desinfetante cozinha','Desinfetante casa de banho','Líquido da Loiça','Pastilhas máquina da Loiça','Alcool/desinfetante'] },
+  { title: 'Roupa', items: ['Liquido da roupa cores Skip','Liquido roupa preta Woolite','Amaciador','Água destilada'] },
 ];
+
 
 // List
 const input       = document.getElementById('new-item');
