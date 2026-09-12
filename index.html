@@ -16,9 +16,11 @@
 </head>
 <body>
   <main>
+    <!-- App header -->
     <div class="logo"><span class="logo-aj">AJ's</span> <span class="logo-todo">ToDoList</span></div>
     <div class="title-badge" aria-label="App theme icon">🛒</div>
 
+    <!-- Main navigation -->
     <nav class="page-nav">
       <button class="nav-btn active" data-page="home">List</button>
       <button class="nav-btn" data-page="backlog">Backlog</button>
@@ -28,6 +30,7 @@
       <button id="settings-btn" title="Themes" aria-label="Themes">◐</button>
     </nav>
 
+    <!-- Theme menu -->
     <div id="settings-menu" class="settings-menu" hidden>
       <div class="theme-menu-title">Choose theme</div>
       <div id="theme-picker" class="theme-picker">
@@ -42,6 +45,7 @@
       </div>
     </div>
 
+    <!-- Main content sections -->
     <section id="page-home">
       <div class="input-row">
         <div class="input-wrapper">
@@ -74,6 +78,7 @@
     <section id="page-all-items" hidden></section>
   </main>
 
+  <!-- Modal overlays -->
   <div id="price-modal" class="modal" hidden>
     <div class="modal-content">
       <div id="price-item-name" class="modal-title"></div>

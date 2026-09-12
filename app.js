@@ -18,7 +18,7 @@ const listRef = doc(db, 'lists', 'shared');
 const backlogRef = doc(db, 'backlog', 'shared');
 const settingsRef = doc(db, 'settings', 'shared');
 
-// Navigation
+// --- Navigation and app bootstrapping ---
 function navigateTo(page) {
   document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
   document.querySelector(`.nav-btn[data-page="${page}"]`).classList.add('active');
@@ -37,6 +37,7 @@ navigateTo('home');
 
 // Service worker disabled for GitHub Pages so the app always uses the latest deployed files.
 
+// --- Data and app state ---
 // All Items data (defined early so render can reference category order)
 const allItemsCategories = [
   { title: 'Proteínas', items: ['Feijão Preto','Feijão Branco','Grão','Soja','Seitan','Ovos bio','Salmão','Filetes de pescada','Peito de Frango','Bife de Frango finíssimos','Hamburguer de Frango','Douradinhos iglo verdes','Douradinhos iglo frango e queijo','Miolo de camarão','Cogumelos latas/frescos','Tofu marinado (aldi/lidl)','Tofu fumado (aldi/lidl)'] },
@@ -81,6 +82,23 @@ let backlogItems = [];
 let calculatorMode = false;
 let theme = 'default';
 
+function openThemeMenu() {
+  settingsMenu.hidden = false;
+  settingsBtn.classList.add('active');
+  themePicker.hidden = false;
+}
+
+function closeThemeMenu() {
+  settingsMenu.hidden = true;
+  settingsBtn.classList.remove('active');
+}
+
+function hideSuggestionPanels() {
+  suggestionsEl.hidden = true;
+  backlogSuggestionsEl.hidden = true;
+}
+
+// --- Rendering helpers ---
 function save() {
   setDoc(listRef, { items, calculatorMode });
 }
@@ -174,6 +192,7 @@ function renderBacklog() {
   backlogClearBtn.hidden = !backlogItems.some((item) => item.done);
 }
 
+// --- Modal helpers ---
 const priceItemName = document.getElementById('price-item-name');
 const priceConfirmBtn = document.getElementById('price-confirm-btn');
 const priceBackBtn = document.getElementById('price-back-btn');
@@ -264,6 +283,7 @@ function addToBacklog(text, category = null) {
   saveBacklog();
 }
 
+// --- Toast helper ---
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -271,6 +291,7 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('visible'), 2000);
 }
 
+// --- Autocomplete helpers ---
 let currentSuggestions = [];
 let currentBacklogSuggestions = [];
 
@@ -306,6 +327,7 @@ function showBacklogSuggestions(query) {
   backlogSuggestionsEl.hidden = false;
 }
 
+// --- Event listeners ---
 input.addEventListener('input', () => showSuggestions(input.value.trim()));
 
 backlogInput.addEventListener('input', () => showBacklogSuggestions(backlogInput.value.trim()));
@@ -331,8 +353,8 @@ backlogSuggestionsEl.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.input-wrapper')) suggestionsEl.hidden = true;
-  if (!e.target.closest('.input-wrapper')) backlogSuggestionsEl.hidden = true;
+  if (e.target.closest('.input-wrapper')) return;
+  hideSuggestionPanels();
 });
 
 function addItem() {
@@ -400,11 +422,11 @@ calcBtn.addEventListener('click', () => {
 settingsBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   const willOpen = settingsMenu.hidden;
-  settingsMenu.hidden = !willOpen;
-  settingsBtn.classList.toggle('active', willOpen);
 
   if (willOpen) {
-    themePicker.hidden = false;
+    openThemeMenu();
+  } else {
+    closeThemeMenu();
   }
 });
 
@@ -422,15 +444,13 @@ settingsMenu.addEventListener('click', (e) => {
 
   applyTheme(themeOption.dataset.theme);
   saveTheme();
-  settingsMenu.hidden = true;
-  settingsBtn.classList.remove('active');
+  closeThemeMenu();
   showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Default'} theme selected`);
 });
 
 document.addEventListener('click', (e) => {
   if (e.target.closest('#settings-btn') || e.target.closest('.settings-menu')) return;
-  settingsMenu.hidden = true;
-  settingsBtn.classList.remove('active');
+  closeThemeMenu();
 });
 
 list.addEventListener('click', (e) => {
@@ -500,6 +520,7 @@ input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addItem(); });
 document.getElementById('add-backlog-btn').addEventListener('click', addBacklogItem);
 backlogInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addBacklogItem(); });
 
+// --- Firestore subscriptions ---
 function updateAllItemsHighlights() {
   const inList = new Set([...items, ...backlogItems].map((item) => item.text));
   document.querySelectorAll('.all-item').forEach((el) => {
@@ -529,7 +550,7 @@ onSnapshot(backlogRef, (snap) => {
   updateAllItemsHighlights();
 });
 
-// Build All Items page
+// --- All Items page builder ---
 const allItemsPage = document.getElementById('page-all-items');
 allItemsCategories.forEach(({ title, items: categoryItems }) => {
   const section = document.createElement('div');

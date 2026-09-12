@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Righteous&display=swap');
 
+/* --- Base reset and global layout --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -40,6 +41,7 @@ button:active {
   outline: none;
 }
 
+/* --- Page backgrounds and theme shell --- */
 body.page-home, body.page-all-items, body.page-backlog {
   background: #0f0f1a url('icons/background.avif') center / cover no-repeat fixed;
 }
@@ -513,6 +515,7 @@ main {
   color: white;
 }
 
+/* --- Inputs, suggestions, and list rows --- */
 .input-row {
   display: flex;
   gap: 0.5rem;
