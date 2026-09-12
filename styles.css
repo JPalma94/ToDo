@@ -52,7 +52,7 @@ button:active {
 }
 
 body.page-home, body.page-all-items, body.page-backlog {
-  background: #0f0f1a url('icons/background.avif') center / cover no-repeat fixed;
+  background: #0f0f1a url('icons/background.avif') center / cover no-repeat;
 }
 
 body.page-home::before, body.page-all-items::before, body.page-backlog::before {
@@ -75,7 +75,7 @@ body.theme-pink {
 body.theme-pink.page-home,
 body.theme-pink.page-all-items,
 body.theme-pink.page-backlog {
-  background: #160d19 url('icons/background.avif') center / cover no-repeat fixed;
+  background: #160d19 url('icons/background.avif') center / cover no-repeat;
 }
 
 body.theme-pink.page-home::before,
