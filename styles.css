@@ -13,6 +13,15 @@ body {
   min-height: 100dvh;
   padding: 2rem 1rem;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html, body,
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
 }
 
 button {
@@ -22,16 +31,24 @@ button {
   tap-highlight-color: transparent;
   background-image: none;
   box-shadow: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-button:focus,
-button:focus-visible,
+*:focus,
+*:focus-visible,
+*:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  background-image: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
 button:active {
-  outline: none;
-  box-shadow: none;
-  background-image: none;
-  -webkit-box-shadow: none;
-  filter: none;
+  opacity: 1 !important;
 }
 
 body.page-home, body.page-all-items, body.page-backlog {
@@ -194,6 +211,13 @@ main {
   color: #a5b4fc;
 }
 
+.settings-item:active,
+.theme-option:active {
+  background: rgba(30, 30, 58, 0.8);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
+}
+
 .theme-picker {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -224,6 +248,11 @@ main {
 .theme-option.active {
   border-color: rgba(129, 140, 248, 0.8);
   background: rgba(79, 70, 229, 0.15);
+}
+
+.theme-option:active {
+  background: rgba(30, 30, 58, 0.8);
+  border-color: rgba(148, 163, 184, 0.2);
 }
 
 .theme-swatch {
@@ -266,6 +295,12 @@ main {
   color: #10b981;
 }
 
+#calc-btn:active {
+  background: none;
+  border-color: #2d2d5a;
+  color: #475569;
+}
+
 #calc-btn.active {
   background: #10b981;
   border-color: #10b981;
@@ -277,10 +312,22 @@ main {
   color: #f87171;
 }
 
+#reset-btn:active {
+  background: none;
+  border-color: #2d2d5a;
+  color: #475569;
+}
+
 #settings-btn:hover,
 #settings-btn.active {
   border-color: #4F46E5;
   color: #a5b4fc;
+}
+
+#settings-btn:active {
+  background: none;
+  border-color: #2d2d5a;
+  color: #475569;
 }
 
 .nav-btn {
@@ -298,6 +345,12 @@ main {
 .nav-btn:hover {
   border-color: #4F46E5;
   color: #e2e8f0;
+}
+
+.nav-btn:active {
+  background: none;
+  border-color: #2d2d5a;
+  color: #94a3b8;
 }
 
 .nav-btn.active {
@@ -415,6 +468,14 @@ main {
 
 .input-row button:hover {
   background: #4338ca;
+}
+
+.input-row button:active,
+.add-all-btn:active,
+.modal-btn.confirm:active {
+  background: #4F46E5;
+  color: white;
+  opacity: 1;
 }
 
 #todo-list, #backlog-list {
