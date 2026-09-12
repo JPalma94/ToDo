@@ -165,6 +165,13 @@ body.theme-pink #backlog-list li label input[type="checkbox"] {
   background: rgba(31, 16, 33, 0.85);
 }
 
+body.theme-pink #todo-list li label input[type="checkbox"]:checked,
+body.theme-pink #backlog-list li label input[type="checkbox"]:checked {
+  background-color: #f472b6;
+  border-color: #f472b6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.7 3.3a1 1 0 0 1 0 1.4L6.4 12a1 1 0 0 1-1.4 0L2.3 9.1a1 1 0 0 1 1.4-1.4l2.3 2.3 6.3-6.3a1 1 0 0 1 1.4 0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+
 body.theme-pink button.move-to-list {
   color: #f9a8d4;
 }
