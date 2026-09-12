@@ -75,6 +75,18 @@ body.theme-pink .logo-todo {
   color: #f472b6;
 }
 
+body.theme-pink .settings-menu {
+  background: rgba(36, 17, 30, 0.96);
+  border-color: rgba(249, 168, 212, 0.55);
+}
+
+body.theme-pink .settings-item,
+body.theme-pink .theme-option {
+  background: rgba(47, 24, 38, 0.85);
+  border-color: rgba(249, 168, 212, 0.22);
+  color: #fdf2f8;
+}
+
 body.theme-pink input[type="checkbox"] {
   border-color: #f9a8d4;
   background: rgba(31, 16, 33, 0.85);
@@ -118,13 +130,39 @@ body.theme-pink .theme-option:hover {
   background: rgba(236, 72, 153, 0.16);
 }
 
+body.theme-pink .input-row input {
+  background: rgba(31, 16, 33, 0.86);
+  border-color: rgba(249, 168, 212, 0.6);
+  color: #fdf2f8;
+}
+
 body.theme-pink .input-row input:focus {
   border-color: #f472b6;
+}
+
+body.theme-pink #suggestions,
+body.theme-pink #backlog-suggestions {
+  background: rgba(31, 16, 33, 0.96);
+  border-color: rgba(244, 114, 182, 0.8);
+}
+
+body.theme-pink #suggestions li,
+body.theme-pink #backlog-suggestions li {
+  border-bottom-color: rgba(249, 168, 212, 0.2);
+  color: #fdf2f8;
+}
+
+body.theme-pink #todo-list li,
+body.theme-pink #backlog-list li {
+  background: rgba(31, 16, 33, 0.8);
+  border-color: rgba(249, 168, 212, 0.38);
 }
 
 body.theme-pink #todo-list li label input[type="checkbox"],
 body.theme-pink #backlog-list li label input[type="checkbox"] {
   accent-color: #f472b6;
+  border-color: #f9a8d4;
+  background: rgba(31, 16, 33, 0.85);
 }
 
 body.theme-pink button.move-to-list {
@@ -149,6 +187,26 @@ body.theme-pink .all-item.in-list {
   background: rgba(236, 72, 153, 0.14);
 }
 
+body.theme-pink .category {
+  background: rgba(24, 12, 20, 0.74);
+  border-color: rgba(249, 168, 212, 0.26);
+}
+
+body.theme-pink .category-title {
+  color: #fdf2f8;
+  border-bottom-color: rgba(249, 168, 212, 0.25);
+}
+
+body.theme-pink .category-list {
+  background: rgba(47, 24, 38, 0.3);
+}
+
+body.theme-pink .category-list li {
+  background: rgba(47, 24, 38, 0.36);
+  border-bottom-color: rgba(249, 168, 212, 0.18);
+  color: #fdf2f8;
+}
+
 body.theme-pink button.delete:hover {
   color: #f9a8d4;
   background: rgba(236, 72, 153, 0.12);
@@ -158,6 +216,11 @@ body.theme-pink #suggestions li:hover,
 body.theme-pink #backlog-suggestions li:hover {
   background: rgba(236, 72, 153, 0.12);
   color: #fbcfe8;
+}
+
+body.theme-pink .modal-content {
+  background: rgba(31, 16, 33, 0.96);
+  border-color: rgba(244, 114, 182, 0.65);
 }
 
 main {
