@@ -12,6 +12,17 @@ body {
   color: #e2e8f0;
   min-height: 100dvh;
   padding: 2rem 1rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+button:focus,
+button:active {
+  outline: none;
 }
 
 body.page-home, body.page-all-items, body.page-backlog {
