@@ -399,8 +399,13 @@ calcBtn.addEventListener('click', () => {
 
 settingsBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  settingsMenu.hidden = !settingsMenu.hidden;
-  settingsBtn.classList.toggle('active', !settingsMenu.hidden);
+  const willOpen = settingsMenu.hidden;
+  settingsMenu.hidden = !willOpen;
+  settingsBtn.classList.toggle('active', willOpen);
+
+  if (willOpen) {
+    themePicker.hidden = false;
+  }
 });
 
 function applyTheme(nextTheme) {
@@ -426,7 +431,6 @@ document.addEventListener('click', (e) => {
   if (e.target.closest('#settings-btn') || e.target.closest('.settings-menu')) return;
   settingsMenu.hidden = true;
   settingsBtn.classList.remove('active');
-  themePicker.hidden = true;
 });
 
 list.addEventListener('click', (e) => {
