@@ -75,6 +75,17 @@ body.theme-pink .logo-todo {
   color: #f472b6;
 }
 
+body.theme-pink input[type="checkbox"] {
+  border-color: #f9a8d4;
+  background: rgba(31, 16, 33, 0.85);
+}
+
+body.theme-pink input[type="checkbox"]:checked {
+  background-color: #f472b6;
+  border-color: #f472b6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.7 3.3a1 1 0 0 1 0 1.4L6.4 12a1 1 0 0 1-1.4 0L2.3 9.1a1 1 0 0 1 1.4-1.4l2.3 2.3 6.3-6.3a1 1 0 0 1 1.4 0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+
 body.theme-pink .nav-btn.active,
 body.theme-pink .input-row button,
 body.theme-pink .modal-btn.confirm,
@@ -531,9 +542,23 @@ main {
 #todo-list li label input[type="checkbox"], #backlog-list li label input[type="checkbox"] {
   width: 1.1rem;
   height: 1.1rem;
-  accent-color: #4F46E5;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(30, 30, 58, 0.8);
+  border: 1px solid rgba(129, 140, 248, 0.8);
+  border-radius: 0.3rem;
   cursor: pointer;
   flex-shrink: 0;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0.7rem;
+}
+
+#todo-list li label input[type="checkbox"]:checked, #backlog-list li label input[type="checkbox"]:checked {
+  background-color: #4F46E5;
+  border-color: #4F46E5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.7 3.3a1 1 0 0 1 0 1.4L6.4 12a1 1 0 0 1-1.4 0L2.3 9.1a1 1 0 0 1 1.4-1.4l2.3 2.3 6.3-6.3a1 1 0 0 1 1.4 0Z' fill='%23ffffff'/%3E%3C/svg%3E");
 }
 
 #todo-list li label span, #backlog-list li label span {
