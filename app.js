@@ -35,9 +35,7 @@ document.querySelectorAll('.nav-btn').forEach((btn) => {
 
 navigateTo('home');
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
-}
+// Service worker disabled for GitHub Pages so the app always uses the latest deployed files.
 
 // All Items data (defined early so render can reference category order)
 const allItemsCategories = [
