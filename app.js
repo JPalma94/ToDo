@@ -401,9 +401,6 @@ settingsBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   settingsMenu.hidden = !settingsMenu.hidden;
   settingsBtn.classList.toggle('active', !settingsMenu.hidden);
-  if (settingsMenu.hidden) {
-    themePicker.hidden = true;
-  }
 });
 
 function applyTheme(nextTheme) {
@@ -415,31 +412,14 @@ function applyTheme(nextTheme) {
 }
 
 settingsMenu.addEventListener('click', (e) => {
-  const item = e.target.closest('.settings-item');
-  if (item && item.dataset.setting === 'themes') {
-    themePicker.hidden = !themePicker.hidden;
-    item.classList.toggle('active', !themePicker.hidden);
-    return;
-  }
-
   const themeOption = e.target.closest('.theme-option');
-  if (themeOption) {
-    applyTheme(themeOption.dataset.theme);
-    saveTheme();
-    themePicker.hidden = true;
-    settingsMenu.hidden = true;
-    settingsBtn.classList.remove('active');
-    showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Default'} theme selected`);
-    return;
-  }
+  if (!themeOption) return;
 
-  if (!item) return;
-
-  const setting = item.dataset.setting;
+  applyTheme(themeOption.dataset.theme);
+  saveTheme();
   settingsMenu.hidden = true;
   settingsBtn.classList.remove('active');
-  themePicker.hidden = true;
-  showToast(`${setting.charAt(0).toUpperCase() + setting.slice(1)} selected (placeholder)`);
+  showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Default'} theme selected`);
 });
 
 document.addEventListener('click', (e) => {
