@@ -63,6 +63,10 @@ const clearBtn    = document.getElementById('clear-btn');
 const itemCount   = document.getElementById('item-count');
 const cartTotal   = document.getElementById('cart-total');
 const calcBtn     = document.getElementById('calc-btn');
+const settingsBtn  = document.getElementById('settings-btn');
+const settingsMenu = document.getElementById('settings-menu');
+const themePicker  = document.getElementById('theme-picker');
+const themeOptions = document.querySelectorAll('.theme-option');
 const priceModal  = document.getElementById('price-modal');
 const priceInput  = document.getElementById('price-input');
 const suggestionsEl = document.getElementById('suggestions');
@@ -387,6 +391,56 @@ backlogList.addEventListener('change', async (e) => {
 calcBtn.addEventListener('click', () => {
   calculatorMode = !calculatorMode;
   save();
+});
+
+settingsBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  settingsMenu.hidden = !settingsMenu.hidden;
+  settingsBtn.classList.toggle('active', !settingsMenu.hidden);
+  if (settingsMenu.hidden) {
+    themePicker.hidden = true;
+  }
+});
+
+function applyTheme(theme) {
+  document.body.classList.toggle('theme-pink', theme === 'pink');
+  themeOptions.forEach((option) => {
+    option.classList.toggle('active', option.dataset.theme === theme);
+  });
+}
+
+settingsMenu.addEventListener('click', (e) => {
+  const item = e.target.closest('.settings-item');
+  if (item && item.dataset.setting === 'themes') {
+    themePicker.hidden = !themePicker.hidden;
+    item.classList.toggle('active', !themePicker.hidden);
+    return;
+  }
+
+  const themeOption = e.target.closest('.theme-option');
+  if (themeOption) {
+    applyTheme(themeOption.dataset.theme);
+    themePicker.hidden = true;
+    settingsMenu.hidden = true;
+    settingsBtn.classList.remove('active');
+    showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Default'} theme selected`);
+    return;
+  }
+
+  if (!item) return;
+
+  const setting = item.dataset.setting;
+  settingsMenu.hidden = true;
+  settingsBtn.classList.remove('active');
+  themePicker.hidden = true;
+  showToast(`${setting.charAt(0).toUpperCase() + setting.slice(1)} selected (placeholder)`);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#settings-btn') || e.target.closest('.settings-menu')) return;
+  settingsMenu.hidden = true;
+  settingsBtn.classList.remove('active');
+  themePicker.hidden = true;
 });
 
 list.addEventListener('click', (e) => {

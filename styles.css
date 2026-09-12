@@ -31,6 +31,62 @@ body.page-home::before, body.page-all-items::before, body.page-backlog::before {
   pointer-events: none;
 }
 
+body.theme-pink {
+  background: #160d19;
+}
+
+body.theme-pink.page-home,
+body.theme-pink.page-all-items,
+body.theme-pink.page-backlog {
+  background: #160d19 url('icons/background.avif') center / cover no-repeat fixed;
+}
+
+body.theme-pink.page-home::before,
+body.theme-pink.page-all-items::before,
+body.theme-pink.page-backlog::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(22, 13, 25, 0.96) 75px,
+    rgba(43, 20, 36, 0.76) 180px
+  );
+}
+
+body.theme-pink .logo-todo {
+  color: #f472b6;
+}
+
+body.theme-pink .nav-btn.active,
+body.theme-pink .input-row button,
+body.theme-pink .modal-btn.confirm,
+body.theme-pink #toast,
+body.theme-pink .add-all-btn {
+  background: #ec4899;
+}
+
+body.theme-pink .nav-btn.active,
+body.theme-pink .input-row button,
+body.theme-pink .modal-btn.confirm,
+body.theme-pink .add-all-btn {
+  border-color: #ec4899;
+}
+
+body.theme-pink #settings-btn:hover,
+body.theme-pink #settings-btn.active,
+body.theme-pink .settings-item:hover,
+body.theme-pink .settings-item.active,
+body.theme-pink .theme-option.active,
+body.theme-pink .theme-option:hover {
+  border-color: #f9a8d4;
+  color: #fbcfe8;
+}
+
+body.theme-pink .settings-item:hover,
+body.theme-pink .settings-item.active,
+body.theme-pink .theme-option.active,
+body.theme-pink .theme-option:hover {
+  background: rgba(236, 72, 153, 0.16);
+}
+
 main {
   position: relative;
   z-index: 1;
@@ -62,7 +118,8 @@ main {
 }
 
 #calc-btn,
-#reset-btn {
+#reset-btn,
+#settings-btn {
   background: none;
   border: 1px solid #2d2d5a;
   border-radius: 0.6rem;
@@ -76,6 +133,100 @@ main {
   transition: all 0.15s;
 }
 
+.settings-menu {
+  position: absolute;
+  top: 4.1rem;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 170px;
+  padding: 0.5rem;
+  background: rgba(17, 17, 32, 0.96);
+  border: 1px solid rgba(129, 140, 248, 0.5);
+  border-radius: 0.8rem;
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(6px);
+  z-index: 20;
+}
+
+.settings-menu[hidden] {
+  display: none;
+}
+
+.settings-item {
+  background: rgba(30, 30, 58, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.55rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.settings-item:hover,
+.settings-item.active {
+  background: rgba(79, 70, 229, 0.18);
+  border-color: rgba(129, 140, 248, 0.7);
+  color: #a5b4fc;
+}
+
+.theme-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.theme-picker[hidden] {
+  display: none;
+}
+
+.theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(30, 30, 58, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.7rem;
+  color: #e2e8f0;
+  padding: 0.5rem 0.4rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-option:hover,
+.theme-option.active {
+  border-color: rgba(129, 140, 248, 0.8);
+  background: rgba(79, 70, 229, 0.15);
+}
+
+.theme-swatch {
+  width: 100%;
+  height: 2.3rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.theme-default {
+  background: linear-gradient(135deg, #0f0f1a 0%, #1e1e3a 45%, #4F46E5 100%);
+}
+
+.theme-pink {
+  background: linear-gradient(135deg, #1f1021 0%, #3f1d35 38%, #f472b6 100%);
+}
+
+.theme-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: inherit;
+}
+
 #calc-btn {
   margin-left: auto;
   font-size: 1rem;
@@ -84,6 +235,10 @@ main {
 
 #reset-btn {
   font-size: 1.1rem;
+}
+
+#settings-btn {
+  font-size: 0.95rem;
 }
 
 #calc-btn:hover {
@@ -100,6 +255,12 @@ main {
 #reset-btn:hover {
   border-color: #f87171;
   color: #f87171;
+}
+
+#settings-btn:hover,
+#settings-btn.active {
+  border-color: #4F46E5;
+  color: #a5b4fc;
 }
 
 .nav-btn {
