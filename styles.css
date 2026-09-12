@@ -56,11 +56,20 @@ button:active {
 }
 
 body.page-home, body.page-all-items, body.page-backlog {
-  background: #0f0f1a;
+  background: #0f0f1a url('icons/background.avif') center / cover no-repeat;
 }
 
 body.page-home::before, body.page-all-items::before, body.page-backlog::before {
-  content: none;
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #0f0f1a 75px,
+    rgba(10, 10, 20, 0.72) 180px
+  );
+  z-index: 0;
+  pointer-events: none;
 }
 
 body.theme-pink {
@@ -70,13 +79,17 @@ body.theme-pink {
 body.theme-pink.page-home,
 body.theme-pink.page-all-items,
 body.theme-pink.page-backlog {
-  background: #160d19;
+  background: #160d19 url('icons/background.avif') center / cover no-repeat;
 }
 
 body.theme-pink.page-home::before,
 body.theme-pink.page-all-items::before,
 body.theme-pink.page-backlog::before {
-  content: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(22, 13, 25, 0.96) 75px,
+    rgba(43, 20, 36, 0.76) 180px
+  );
 }
 
 body.theme-pink .logo-todo {
