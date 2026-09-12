@@ -27,7 +27,6 @@ button, a, input, select, textarea {
 
 button {
   -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
 }
 
 button:focus,

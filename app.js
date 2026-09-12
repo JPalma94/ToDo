@@ -80,9 +80,10 @@ const backlogSuggestionsEl = document.getElementById('backlog-suggestions');
 let items = [];
 let backlogItems = [];
 let calculatorMode = false;
+let theme = 'default';
 
 function save() {
-  setDoc(listRef, { items, calculatorMode });
+  setDoc(listRef, { items, calculatorMode, theme });
 }
 
 function saveBacklog() {
@@ -402,7 +403,8 @@ settingsBtn.addEventListener('click', (e) => {
   }
 });
 
-function applyTheme(theme) {
+function applyTheme(nextTheme) {
+  theme = nextTheme;
   document.body.classList.toggle('theme-pink', theme === 'pink');
   themeOptions.forEach((option) => {
     option.classList.toggle('active', option.dataset.theme === theme);
@@ -420,6 +422,7 @@ settingsMenu.addEventListener('click', (e) => {
   const themeOption = e.target.closest('.theme-option');
   if (themeOption) {
     applyTheme(themeOption.dataset.theme);
+    save();
     themePicker.hidden = true;
     settingsMenu.hidden = true;
     settingsBtn.classList.remove('active');
@@ -522,6 +525,8 @@ onSnapshot(listRef, (snap) => {
   const data = snap.exists() ? snap.data() : {};
   items = data.items || [];
   calculatorMode = !!data.calculatorMode;
+  theme = data.theme || 'default';
+  applyTheme(theme);
   render();
   updateAllItemsHighlights();
 });
