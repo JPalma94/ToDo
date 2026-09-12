@@ -16,13 +16,22 @@ body {
 }
 
 button {
+  -webkit-appearance: none;
+  appearance: none;
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
 button:focus,
+button:focus-visible,
 button:active {
   outline: none;
+  box-shadow: none;
+  background-image: none;
+  -webkit-box-shadow: none;
+  filter: none;
 }
 
 body.page-home, body.page-all-items, body.page-backlog {
