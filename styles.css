@@ -268,9 +268,9 @@ main {
   border: 1px solid #2d2d5a;
   border-radius: 0.6rem;
   color: #94a3b8;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.85rem;
   cursor: pointer;
   transition: all 0.15s;
 }
