@@ -315,7 +315,13 @@ button.move-to-list:hover {
 }
 
 .category {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
+  background: rgba(15, 15, 26, 0.7);
+  border: 1px solid rgba(129, 140, 248, 0.28);
+  border-radius: 0.9rem;
+  padding: 0.85rem 0.9rem 0.35rem;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(4px);
 }
 
 .category-title {
@@ -327,17 +333,16 @@ button.move-to-list:hover {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e2e8f0;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
+  margin-bottom: 0.55rem;
+  padding: 0.15rem 0.2rem 0.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
   cursor: pointer;
   user-select: none;
 }
 
 .category-title:hover {
-  color: #818cf8;
+  color: #a5b4fc;
 }
 
 .chevron {
@@ -350,6 +355,9 @@ button.move-to-list:hover {
   list-style: none;
   display: flex;
   flex-direction: column;
+  background: rgba(30, 30, 58, 0.28);
+  border-radius: 0.65rem;
+  overflow: hidden;
 }
 
 .category-list[hidden] {
@@ -358,9 +366,11 @@ button.move-to-list:hover {
 
 .category-list li {
   font-size: 0.95rem;
-  color: #cbd5e1;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid #1a1a2e;
+  color: #e2e8f0;
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(30, 30, 58, 0.35);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .category-list li:last-child {
@@ -430,19 +440,22 @@ button.move-to-list:hover {
 
 .all-item {
   cursor: pointer;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
 
 .all-item:hover {
-  color: #a5b4fc;
+  color: #f8fafc;
+  background: rgba(129, 140, 248, 0.12);
 }
 
 .all-item:active {
-  color: #4F46E5;
+  color: #c7d2fe;
 }
 
 .all-item.in-list {
-  color: #818cf8;
+  color: #c7d2fe;
+  background: rgba(79, 70, 229, 0.16);
 }
 
 .modal {
