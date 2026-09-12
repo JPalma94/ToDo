@@ -16,6 +16,7 @@ const db = initializeFirestore(firebaseApp, {
 });
 const listRef = doc(db, 'lists', 'shared');
 const backlogRef = doc(db, 'backlog', 'shared');
+const settingsRef = doc(db, 'settings', 'shared');
 
 // Navigation
 function navigateTo(page) {
@@ -83,7 +84,11 @@ let calculatorMode = false;
 let theme = 'default';
 
 function save() {
-  setDoc(listRef, { items, calculatorMode, theme });
+  setDoc(listRef, { items, calculatorMode });
+}
+
+function saveTheme() {
+  setDoc(settingsRef, { theme }, { merge: true });
 }
 
 function saveBacklog() {
@@ -422,7 +427,7 @@ settingsMenu.addEventListener('click', (e) => {
   const themeOption = e.target.closest('.theme-option');
   if (themeOption) {
     applyTheme(themeOption.dataset.theme);
-    save();
+    saveTheme();
     themePicker.hidden = true;
     settingsMenu.hidden = true;
     settingsBtn.classList.remove('active');
@@ -525,10 +530,14 @@ onSnapshot(listRef, (snap) => {
   const data = snap.exists() ? snap.data() : {};
   items = data.items || [];
   calculatorMode = !!data.calculatorMode;
-  theme = data.theme || 'default';
-  applyTheme(theme);
   render();
   updateAllItemsHighlights();
+});
+
+onSnapshot(settingsRef, (snap) => {
+  const data = snap.exists() ? snap.data() : {};
+  theme = data.theme || 'default';
+  applyTheme(theme);
 });
 
 onSnapshot(backlogRef, (snap) => {
