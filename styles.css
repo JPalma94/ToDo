@@ -127,22 +127,20 @@ body.theme-pink .all-items-fab {
 }
 
 body.theme-pink #theme-btn:hover,
-body.theme-pink #theme-btn.active,
-body.theme-pink .theme-option.active,
-body.theme-pink .theme-option:hover {
+body.theme-pink #theme-btn.active {
   border-color: #f9a8d4;
   color: #fbcfe8;
-}
-
-body.theme-pink .theme-option.active,
-body.theme-pink .theme-option:hover {
-  background: rgba(236, 72, 153, 0.16);
 }
 
 body.theme-pink .input-row input {
   background: rgba(31, 16, 33, 0.86);
   border-color: rgba(249, 168, 212, 0.6);
   color: #fdf2f8;
+}
+
+body.theme-pink #toast {
+  background: #ec4899;
+  box-shadow: 0 10px 28px rgba(236, 72, 153, 0.35);
 }
 
 body.theme-pink .input-row input:focus {
@@ -381,10 +379,29 @@ main {
   transition: all 0.15s ease;
 }
 
-.theme-option:hover,
-.theme-option.active {
+.theme-option[data-theme="blue"].active,
+body:not(.theme-pink) .theme-option[data-theme="blue"]:hover {
   border-color: rgba(129, 140, 248, 0.8);
   background: rgba(79, 70, 229, 0.15);
+  color: #e2e8f0;
+}
+
+.theme-option[data-theme="pink"] {
+  background: rgba(47, 24, 38, 0.85);
+  border-color: rgba(249, 168, 212, 0.22);
+  color: #fdf2f8;
+}
+
+.theme-option[data-theme="pink"].active,
+body.theme-pink .theme-option[data-theme="pink"]:hover {
+  border-color: #f9a8d4 !important;
+  background: rgba(236, 72, 153, 0.22) !important;
+  color: #fbcfe8 !important;
+}
+
+.theme-option[data-theme="pink"].active .theme-label,
+body.theme-pink .theme-option[data-theme="pink"]:hover .theme-label {
+  color: #fbcfe8 !important;
 }
 
 .theme-option:active {
