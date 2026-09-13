@@ -399,7 +399,7 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.theme-default {
+.theme-blue {
   background: linear-gradient(135deg, #0f0f1a 0%, #1e1e3a 45%, #4F46E5 100%);
 }
 
@@ -505,7 +505,8 @@ main {
   border-radius: 50%;
   width: 3.8rem;
   justify-self: center;
-  font-size: 0.62rem;
+  font-family: var(--font-brand);
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 0.7rem 0.4rem;

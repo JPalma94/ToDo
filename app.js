@@ -85,7 +85,11 @@ const backlogSuggestionsEl = document.getElementById('backlog-suggestions');
 let items = [];
 let backlogItems = [];
 let calculatorMode = false;
-let theme = 'default';
+let theme = 'blue';
+
+function normalizeTheme(themeName) {
+  return themeName === 'default' ? 'blue' : themeName;
+}
 
 function openThemeMenu() {
   themeMenu.hidden = false;
@@ -436,7 +440,8 @@ themeBtn.addEventListener('click', (e) => {
 });
 
 function applyTheme(nextTheme) {
-  theme = nextTheme;
+  const normalizedTheme = normalizeTheme(nextTheme);
+  theme = normalizedTheme;
   document.body.classList.toggle('theme-pink', theme === 'pink');
   themeOptions.forEach((option) => {
     option.classList.toggle('active', option.dataset.theme === theme);
@@ -450,7 +455,7 @@ themeMenu.addEventListener('click', (e) => {
   applyTheme(themeOption.dataset.theme);
   saveTheme();
   closeThemeMenu();
-  showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Default'} theme selected`);
+  showToast(`${themeOption.dataset.theme === 'pink' ? 'Pink' : 'Blue'} theme selected`);
 });
 
 document.addEventListener('click', (e) => {
@@ -544,7 +549,7 @@ onSnapshot(listRef, (snap) => {
 
 onSnapshot(settingsRef, (snap) => {
   const data = snap.exists() ? snap.data() : {};
-  theme = data.theme || 'default';
+  theme = normalizeTheme(data.theme || 'blue');
   applyTheme(theme);
 });
 
