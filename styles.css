@@ -500,12 +500,12 @@ main {
 .bottom-nav {
   position: fixed;
   left: 50%;
-  bottom: 3rem;
+  bottom: 4rem;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   z-index: 15;
 }
 
