@@ -32,15 +32,11 @@ function navigateTo(page) {
   document.body.classList.toggle('page-home', page === 'home');
   document.body.classList.toggle('page-backlog', page === 'backlog');
   document.body.classList.toggle('page-all-items', page === 'all-items');
-  allItemsFab.hidden = page === 'all-items';
 }
 
 document.querySelectorAll('.nav-btn').forEach((btn) => {
   btn.addEventListener('click', () => navigateTo(btn.dataset.page));
 });
-
-const allItemsFab = document.getElementById('all-items-btn');
-allItemsFab.addEventListener('click', () => navigateTo('all-items'));
 
 navigateTo('home');
 

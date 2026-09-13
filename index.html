@@ -22,14 +22,16 @@
 
     <!-- Main navigation -->
     <nav class="page-nav">
-      <button class="nav-btn active" data-page="home">List</button>
-      <button class="nav-btn" data-page="backlog">Backlog</button>
       <button id="calc-btn" title="Calculator mode">€</button>
       <button id="reset-btn" title="Reset list">↺</button>
       <button id="theme-btn" title="Themes" aria-label="Themes">◐</button>
     </nav>
 
-    <button id="all-items-btn" class="all-items-fab" aria-label="View all items" title="All items">≡</button>
+    <div class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-page="home">LIST</button>
+      <button class="nav-btn" data-page="backlog">BACKLOG</button>
+      <button class="nav-btn" data-page="all-items">ALL</button>
+    </div>
 
     <!-- Theme menu -->
     <div id="theme-menu" class="theme-menu" hidden>
