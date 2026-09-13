@@ -498,8 +498,9 @@ main {
 
 .all-items-fab {
   position: fixed;
-  right: 1rem;
-  bottom: 1rem;
+  left: 50%;
+  bottom: 4.25rem;
+  transform: translateX(-50%);
   width: 3.2rem;
   height: 3.2rem;
   border: none;
