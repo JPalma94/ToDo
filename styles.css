@@ -83,12 +83,11 @@ body.theme-pink .logo-todo {
   color: #f472b6;
 }
 
-body.theme-pink .settings-menu {
+body.theme-pink .theme-menu {
   background: rgba(36, 17, 30, 0.96);
   border-color: rgba(249, 168, 212, 0.55);
 }
 
-body.theme-pink .settings-item,
 body.theme-pink .theme-option {
   background: rgba(47, 24, 38, 0.85);
   border-color: rgba(249, 168, 212, 0.22);
@@ -121,18 +120,14 @@ body.theme-pink .add-all-btn {
   border-color: #ec4899;
 }
 
-body.theme-pink #settings-btn:hover,
-body.theme-pink #settings-btn.active,
-body.theme-pink .settings-item:hover,
-body.theme-pink .settings-item.active,
+body.theme-pink #theme-btn:hover,
+body.theme-pink #theme-btn.active,
 body.theme-pink .theme-option.active,
 body.theme-pink .theme-option:hover {
   border-color: #f9a8d4;
   color: #fbcfe8;
 }
 
-body.theme-pink .settings-item:hover,
-body.theme-pink .settings-item.active,
 body.theme-pink .theme-option.active,
 body.theme-pink .theme-option:hover {
   background: rgba(236, 72, 153, 0.16);
@@ -300,7 +295,7 @@ main {
 
 #calc-btn,
 #reset-btn,
-#settings-btn {
+#theme-btn {
   background: none;
   border: 1px solid #2d2d5a;
   border-radius: 0.6rem;
@@ -314,7 +309,7 @@ main {
   transition: all 0.15s;
 }
 
-.settings-menu {
+.theme-menu {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -338,36 +333,15 @@ main {
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: none;
-  color: #c7d2fe;
+  color: #fdf2f8;
   padding: 0 0.2rem 0.15rem;
   text-align: center;
 }
 
-.settings-menu[hidden] {
+.theme-menu[hidden] {
   display: none;
 }
 
-.settings-item {
-  background: rgba(30, 30, 58, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 0.55rem;
-  color: #e2e8f0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.55rem 0.7rem;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.settings-item:hover,
-.settings-item.active {
-  background: rgba(79, 70, 229, 0.18);
-  border-color: rgba(129, 140, 248, 0.7);
-  color: #a5b4fc;
-}
-
-.settings-item:active,
 .theme-option:active {
   background: rgba(30, 30, 58, 0.8);
   border-color: rgba(148, 163, 184, 0.2);
@@ -442,7 +416,7 @@ main {
   font-size: 1.1rem;
 }
 
-#settings-btn {
+#theme-btn {
   font-size: 0.95rem;
 }
 
@@ -474,13 +448,13 @@ main {
   color: #475569;
 }
 
-#settings-btn:hover,
-#settings-btn.active {
+#theme-btn:hover,
+#theme-btn.active {
   border-color: #4F46E5;
   color: #a5b4fc;
 }
 
-#settings-btn:active {
+#theme-btn:active {
   background: none;
   border-color: #2d2d5a;
   color: #475569;
@@ -519,7 +493,7 @@ main {
 .input-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .input-wrapper {
@@ -728,7 +702,7 @@ button.move-to-list:hover {
 }
 
 .category {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
   background: rgba(15, 15, 26, 0.7);
   border: 1px solid rgba(129, 140, 248, 0.28);
   border-radius: 0.9rem;

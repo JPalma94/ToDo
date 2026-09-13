@@ -63,9 +63,9 @@ const clearBtn    = document.getElementById('clear-btn');
 const itemCount   = document.getElementById('item-count');
 const cartTotal   = document.getElementById('cart-total');
 const calcBtn     = document.getElementById('calc-btn');
-const settingsBtn  = document.getElementById('settings-btn');
-const settingsMenu = document.getElementById('settings-menu');
-const themePicker  = document.getElementById('theme-picker');
+const themeBtn    = document.getElementById('theme-btn');
+const themeMenu   = document.getElementById('theme-menu');
+const themePicker = document.getElementById('theme-picker');
 const themeOptions = document.querySelectorAll('.theme-option');
 const priceModal  = document.getElementById('price-modal');
 const priceInput  = document.getElementById('price-input');
@@ -83,14 +83,14 @@ let calculatorMode = false;
 let theme = 'default';
 
 function openThemeMenu() {
-  settingsMenu.hidden = false;
-  settingsBtn.classList.add('active');
+  themeMenu.hidden = false;
+  themeBtn.classList.add('active');
   themePicker.hidden = false;
 }
 
 function closeThemeMenu() {
-  settingsMenu.hidden = true;
-  settingsBtn.classList.remove('active');
+  themeMenu.hidden = true;
+  themeBtn.classList.remove('active');
 }
 
 function hideSuggestionPanels() {
@@ -419,9 +419,9 @@ calcBtn.addEventListener('click', () => {
   save();
 });
 
-settingsBtn.addEventListener('click', (e) => {
+themeBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  const willOpen = settingsMenu.hidden;
+  const willOpen = themeMenu.hidden;
 
   if (willOpen) {
     openThemeMenu();
@@ -438,7 +438,7 @@ function applyTheme(nextTheme) {
   });
 }
 
-settingsMenu.addEventListener('click', (e) => {
+themeMenu.addEventListener('click', (e) => {
   const themeOption = e.target.closest('.theme-option');
   if (!themeOption) return;
 
@@ -449,7 +449,7 @@ settingsMenu.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-  if (e.target.closest('#settings-btn') || e.target.closest('.settings-menu')) return;
+  if (e.target.closest('#theme-btn') || e.target.closest('.theme-menu')) return;
   closeThemeMenu();
 });
 
