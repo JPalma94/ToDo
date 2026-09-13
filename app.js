@@ -21,17 +21,26 @@ const settingsRef = doc(db, 'settings', 'shared');
 // --- Navigation and app bootstrapping ---
 function navigateTo(page) {
   document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
-  document.querySelector(`.nav-btn[data-page="${page}"]`).classList.add('active');
+
+  const navBtn = document.querySelector(`.nav-btn[data-page="${page}"]`);
+  if (navBtn) {
+    navBtn.classList.add('active');
+  }
+
   document.querySelectorAll('section[id^="page-"]').forEach((s) => s.hidden = true);
   document.getElementById(`page-${page}`).hidden = false;
   document.body.classList.toggle('page-home', page === 'home');
   document.body.classList.toggle('page-backlog', page === 'backlog');
   document.body.classList.toggle('page-all-items', page === 'all-items');
+  allItemsFab.hidden = page === 'all-items';
 }
 
 document.querySelectorAll('.nav-btn').forEach((btn) => {
   btn.addEventListener('click', () => navigateTo(btn.dataset.page));
 });
+
+const allItemsFab = document.getElementById('all-items-btn');
+allItemsFab.addEventListener('click', () => navigateTo('all-items'));
 
 navigateTo('home');
 
